@@ -1,30 +1,17 @@
-**!! Atenção: Renomeie o seu repositório para (Tema)_(NomeDoProjeto). !!** 
+# Grafos1_Salvacao-do-mago
 
-Temas:
- - Grafos1
- - Grafos2
- - PD
- - D&C
- - Greed
- - Final 
- 
- **!! *Não coloque os nomes dos alunos no título do repositório*. Exemplo de título correto: Grafos2_Labirinto-do-Minotauro !!**
- 
- (Apague essa seção)
-
-# NomedoProjeto
-
-**Número da Lista**: X<br>
-**Conteúdo da Disciplina**: XXXXXXXXXX<br>
+**Número da Lista**: 3<br>
+**Conteúdo da Disciplina**: Grafos1<br>
 
 ## Alunos
 |Matrícula | Aluno |
 | -- | -- |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+| 22/2037648  |  André Cláudio Maia da Cunha |
+| 21/1062713  |  Paola Rebeca Lima do Nascimento |
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+Este projeto implementa um algoritmo de busca em um mapa bidimensional onde um mago precisa entregar poções de regeneração de vida para três aliados, enquanto desvia de inimigos posicionados no mapa. O objetivo é calcular e fornecer o menor cmainho possível que passe pelos três aliados sem atravessar os territórios dos inimigos, facilitando o trabalho do mago.<br>
+O projeto utiliza um algoritmo de busca em largura (BFS - Breadth-First-Search) para explorar o mapa e encontrar o menor caminho. O algoritmo é adaptado para evitar os pontos marcados como inimigos e garantir que o mago passe pelos três aliados na ordem mais eficiente.
 
 ## Screenshots
 Adicione 3 ou mais screenshots do projeto em funcionamento.
