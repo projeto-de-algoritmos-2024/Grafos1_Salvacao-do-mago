@@ -17,8 +17,8 @@ O projeto utiliza um algoritmo de busca em largura (BFS - Breadth-First-Search) 
 Adicione 3 ou mais screenshots do projeto em funcionamento.
 
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
+**Linguagem**: Python 3<br>
+**Framework**: Pygame<br>
 Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
 
 ## Uso 
