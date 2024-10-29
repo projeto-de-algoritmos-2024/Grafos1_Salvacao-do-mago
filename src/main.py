@@ -1,8 +1,8 @@
 import pygame
 pygame.init()
 
-TILE_SIZE = 35
-MAP_SIZE = 40
+TILE_SIZE = 50
+MAP_SIZE = 18
 
 screen = pygame.display.set_mode((MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE))
 pygame.display.set_caption("Mapa do Mago")
@@ -27,19 +27,36 @@ mountain_img = pygame.transform.scale(mountain_img, (TILE_SIZE, TILE_SIZE))
 
 map = [[0 for _ in range(MAP_SIZE)] for _ in range(MAP_SIZE)]
 
+# Mago = 1, Aliados = 2, Inimigos = 3, Floresta = 4, Rio = 5, Montanha = 6
+
+# Inserindo a posição do mago
 map[0][0] = 1
+
+# Inserindo a posição dos aliados
 map[5][5] = 2
 map[10][10] = 2
 map[15][15] = 2
-map[20][20] = 3
-map[25][25] = 3
 
+# Inserindo a posição dos inimigos
+map[5][4] = 3
+map[9][11] = 3
+map[13][14] = 3
+
+# Inserindo os obstáculos
+# Floresta
 map[2][3] = 4
 map[7][8] = 4
-map[4][15] = 5
-map[10][20] = 5
-map[18][2] = 6
-map[22][10] = 6
+map[16][11] = 4
+
+# Rio
+map[4][10] = 5
+map[8][2] = 5
+map[10][15] = 5
+
+# Montanha
+map[6][12] = 6
+map[9][6] = 6
+map[14][2] = 6
 
 def draw_map():
     for y in range(MAP_SIZE):
