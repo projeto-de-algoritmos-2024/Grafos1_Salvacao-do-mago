@@ -1,30 +1,37 @@
 import pygame
 pygame.init()
 
-TILE_SIZE = 50
+# Definindo o tamanho de cada quadrado e o tamanho da matriz
+TILE_SIZE = 40
 MAP_SIZE = 18
 
+# Definindo o tamanho da janela e o título
 screen = pygame.display.set_mode((MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE))
 pygame.display.set_caption("Mapa do Mago")
 
+# Criando algumas constantes de cores
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GREEN = (0, 255, 0)
 
+# Carregando em variáveis as imagens dos elementos
 mage_img = pygame.image.load('assets/mage.png')
 ally_img = pygame.image.load('assets/ally.png')
 ogre_img = pygame.image.load('assets/ogre.png')
 river_img = pygame.image.load('assets/river.png')
 mountain_img = pygame.image.load('assets/mountain.png')
 forest_img = pygame.image.load('assets/forest.png')
+floor_img = pygame.image.load('assets/floor.png')
 
+# Mudando a escala dos elementos para se adequar aos quadrados do mapa
 mage_img = pygame.transform.scale(mage_img, (TILE_SIZE, TILE_SIZE))
 ally_img = pygame.transform.scale(ally_img, (TILE_SIZE, TILE_SIZE))
 ogre_img = pygame.transform.scale(ogre_img, (TILE_SIZE, TILE_SIZE))
 forest_img = pygame.transform.scale(forest_img, (TILE_SIZE, TILE_SIZE))
 river_img = pygame.transform.scale(river_img, (TILE_SIZE, TILE_SIZE))
 mountain_img = pygame.transform.scale(mountain_img, (TILE_SIZE, TILE_SIZE))
+floor_img = pygame.transform.scale(floor_img, (TILE_SIZE, TILE_SIZE))
 
+# Criando o mapa e preenchendo com nada
 map = [[0 for _ in range(MAP_SIZE)] for _ in range(MAP_SIZE)]
 
 # Mago = 1, Aliados = 2, Inimigos = 3, Floresta = 4, Rio = 5, Montanha = 6
@@ -58,9 +65,15 @@ map[6][12] = 6
 map[9][6] = 6
 map[14][2] = 6
 
+# Função que desenha o mapa
 def draw_map():
+    # Aqui, estamos percorrendo a matriz
     for y in range(MAP_SIZE):
         for x in range(MAP_SIZE):
+            # Preenchendo todos os quadrados com a imagem do chão
+            screen.blit(floor_img, (x * TILE_SIZE, y * TILE_SIZE))
+
+            # Aqui, verificamos qual o conteúdo do quadrado e, se for algum componente, adicionamos a imagem dele
             if map[y][x] == 1:
                 screen.blit(mage_img, (x * TILE_SIZE, y * TILE_SIZE))
             elif map[y][x] == 2:
@@ -73,14 +86,14 @@ def draw_map():
                 screen.blit(river_img, (x * TILE_SIZE, y * TILE_SIZE))
             elif map[y][x] == 6:
                 screen.blit(mountain_img, (x * TILE_SIZE, y * TILE_SIZE))
-            else: 
-                pygame.draw.rect(screen, WHITE, (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE))
 
-            pygame.draw.rect(screen, BLACK, (x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE), 1)
 
+# Enquanto o programa estiver em execução, ocorre o que ta dentro do loop
 running = True
 while running:
+    # Capturamos o evento
     for event in pygame.event.get():
+        # Se for evento de quit, ou seja, fechar a janela, alteramos o estado de running
         if event.type == pygame.QUIT:
             running = False
 
