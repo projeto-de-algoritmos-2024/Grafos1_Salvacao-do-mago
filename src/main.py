@@ -1,17 +1,22 @@
 import pygame
+import random
+
 pygame.init()
 
 # Definindo o tamanho de cada quadrado e o tamanho da matriz
 TILE_SIZE = 40
 MAP_SIZE = 18
+MENU_HEIGHT = 60
 
 # Definindo o tamanho da janela e o título
-screen = pygame.display.set_mode((MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE))
+screen = pygame.display.set_mode((MAP_SIZE * TILE_SIZE, MAP_SIZE * TILE_SIZE + MENU_HEIGHT))
 pygame.display.set_caption("Mapa do Mago")
 
 # Criando algumas constantes de cores
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+MENU_BG = (58, 90, 64) 
+BUTTON_COLOR = (52, 78, 65)
 
 # Carregando em variáveis as imagens dos elementos
 mage_img = pygame.image.load('assets/mage.png')
@@ -39,16 +44,6 @@ map = [[0 for _ in range(MAP_SIZE)] for _ in range(MAP_SIZE)]
 # Inserindo a posição do mago
 map[0][0] = 1
 
-# Inserindo a posição dos aliados
-map[5][5] = 2
-map[10][10] = 2
-map[15][15] = 2
-
-# Inserindo a posição dos inimigos
-map[5][4] = 3
-map[9][11] = 3
-map[13][14] = 3
-
 # Inserindo os obstáculos
 # Floresta
 map[2][3] = 4
@@ -64,6 +59,31 @@ map[10][15] = 5
 map[6][12] = 6
 map[9][6] = 6
 map[14][2] = 6
+
+allies_added = False
+enemies_added = False
+
+buttons = [
+    {"rect": pygame.Rect(115, 730, 150, 40), "text": "Add Aliados"},
+    {"rect": pygame.Rect(285, 730, 150, 40), "text": "Add Inimigos"},
+    {"rect": pygame.Rect(455, 730, 150, 40), "text": "Iniciar BFS"}
+]
+
+def add_characters(character_type, count):
+    added = 0
+    while added < count:
+        x = random.randint(0, MAP_SIZE - 1)
+        y = random.randint(0, MAP_SIZE - 1)
+        if map[y][x] == 0:
+            map[y][x] = character_type
+            added+=1
+
+def draw_buttons():
+    for button in buttons:
+        pygame.draw.rect(screen, BUTTON_COLOR, button["rect"])
+        font = pygame.font.SysFont("Monospace", 15, True)
+        text = font.render(button["text"], True, WHITE)
+        screen.blit(text, (button["rect"].x + 25, button["rect"].y + 10))
 
 # Função que desenha o mapa
 def draw_map():
@@ -96,9 +116,24 @@ while running:
         # Se for evento de quit, ou seja, fechar a janela, alteramos o estado de running
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_pos = event.pos
+            for button in buttons:
+                if button["rect"].collidepoint(mouse_pos):
+                    if button["text"] == "Add Aliados" and not allies_added:
+                        add_characters(2, 3)
+                        allies_added = True
+                    elif button["text"] == "Add Inimigos" and not enemies_added:
+                        add_characters(3, 3)
+                        enemies_added = True
+                    elif button["text"] == "Iniciar BFS":
+                        print("Iniciando BFS...")
 
     screen.fill(WHITE)
+
+    pygame.draw.rect(screen, BLACK, (0, 0, MAP_SIZE * TILE_SIZE, MENU_HEIGHT))
     draw_map()
+    draw_buttons()
     pygame.display.flip()
 
 pygame.quit()
