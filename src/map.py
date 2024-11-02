@@ -29,22 +29,22 @@ def add_obstacles(game_map):
 # Função que desenha o mapa
 def draw_map(screen, game_map):
     images = load_images()
+
+    image_mapping = {
+        MAGE: images["mage_img"],
+        ALLY: images["ally_img"],
+        ENEMY: images["ogre_img"],
+        FOREST: images["forest_img"],
+        RIVER: images["river_img"],
+        MOUNTAIN: images["mountain_img"]
+    }
+
     # Aqui, estamos percorrendo a matriz
     for y in range(MAP_SIZE):
         for x in range(MAP_SIZE):
             # Preenchendo todos os quadrados com a imagem do chão
             screen.blit(images["floor_img"], (x * TILE_SIZE, y * TILE_SIZE))
 
-            # Aqui, verificamos qual o conteúdo do quadrado e, se for algum componente, adicionamos a imagem dele
-            if game_map[y][x] == MAGE:
-                screen.blit(images["mage_img"], (x * TILE_SIZE, y * TILE_SIZE))
-            elif game_map[y][x] == ALLY:
-                screen.blit(images["ally_img"], (x * TILE_SIZE, y * TILE_SIZE))
-            elif game_map[y][x] == ENEMY:
-                screen.blit(images["ogre_img"], (x * TILE_SIZE, y * TILE_SIZE))
-            elif game_map[y][x] == FOREST:
-                screen.blit(images["forest_img"], (x * TILE_SIZE, y * TILE_SIZE))
-            elif game_map[y][x] == RIVER:
-                screen.blit(images["river_img"], (x * TILE_SIZE, y * TILE_SIZE))
-            elif game_map[y][x] == MOUNTAIN:
-                screen.blit(images["mountain_img"], (x * TILE_SIZE, y * TILE_SIZE))
+            element = game_map[y][x]
+            if element in image_mapping:
+                screen.blit(image_mapping[element], (x * TILE_SIZE, y * TILE_SIZE))
