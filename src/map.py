@@ -10,21 +10,17 @@ def create_map():
     return game_map
 
 def add_obstacles(game_map):
-    # Inserindo os obstáculos
-    # Floresta
-    game_map[2][3] = FOREST
-    game_map[7][8] = FOREST
-    game_map[16][11] = FOREST
+    # Dicionário que mapeia o tipo de obstáculo para suas respectivas coordenadas
+    obstacles = {
+        FOREST: [(2, 3), (7, 8), (16, 11)],
+        RIVER: [(4, 10), (8, 2), (10, 15)],
+        MOUNTAIN: [(6, 12), (9, 6), (14, 2)]
+    }
 
-    # Rio
-    game_map[4][10] = RIVER
-    game_map[8][2] = RIVER
-    game_map[10][15] = RIVER
-
-    # Montanha
-    game_map[6][12] = MOUNTAIN
-    game_map[9][6] = MOUNTAIN
-    game_map[14][2] = MOUNTAIN
+    # Loop para inserir os obstáculos no mapa
+    for obstacle_type, positions in obstacles.items():
+        for x, y in positions:
+            game_map[y][x] = obstacle_type
 
 # Função que desenha o mapa
 def draw_map(screen, game_map):
