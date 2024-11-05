@@ -1,8 +1,9 @@
 import pygame
 import random
 from constants import *
+from collections import deque
 from map import draw_map, create_map
-from image_loader import load_images  # Importe a função para carregar imagens
+from images import load_images  # Importe a função para carregar imagens
 
 class Game:
     def __init__(self):
@@ -16,10 +17,16 @@ class Game:
         self.images = load_images()  # Carrega todas as imagens, incluindo a do aliado
         self.ally_image = self.images["ally_img"]  # Usa a imagem do aliado carregada
 
+        self.animating = False
+        self.all_paths = []
+        self.current_path_index = 0
+        self.current_step_index = 0
+
         self.buttons = [
-            {"rect": pygame.Rect(115, 730, 150, 40), "text": "Add Aliados"},
-            {"rect": pygame.Rect(285, 730, 150, 40), "text": "Add Inimigos"},
-            {"rect": pygame.Rect(455, 730, 150, 40), "text": "Iniciar BFS"}
+            {"rect": pygame.Rect(30, 730, 150, 40), "text": "Add Aliados"},
+            {"rect": pygame.Rect(200, 730, 150, 40), "text": "Add Inimigos"},
+            {"rect": pygame.Rect(370, 730, 150, 40), "text": "Start BFS"},
+            {"rect": pygame.Rect(540, 730, 150, 40), "text": "Reset Game"} 
         ]
 
     def add_characters(self, character_type, count):
@@ -35,12 +42,12 @@ class Game:
                 print(f"{character_type} adicionado em: ({x}, {y})")
 
     def bfs(self, start, goal):
-        queue = [start]
+        queue = deque([start])
         visited = set()
         paths = {start: []}
         
         while queue:
-            current = queue.pop(0)
+            current = queue.popleft()
             print(f"Visitando: {current}, Caminho até agora: {paths[current]}")
 
             if current == goal:
@@ -58,28 +65,37 @@ class Game:
         return []  # Retorna uma lista vazia se não encontrar caminho
 
     def find_all_paths(self, start):
-        paths = []
+        self.all_paths = []
         for ally in self.allies_positions:
             path = self.bfs(start, ally)
             if path:
-                paths.append((ally, path))
+                self.all_paths.append(path)
                 start = ally  # Atualiza a posição inicial para o próximo aliado
-        return paths
 
     def handle_button_click(self, button):
         if button["text"] == "Add Aliados":
             self.add_characters(ALLY, 1)  # Adiciona um aliado
         elif button["text"] == "Add Inimigos":
             self.add_characters(ENEMY, 1)  # Adiciona um inimigo
-        elif button["text"] == "Iniciar BFS":
+        elif button["text"] == "Start BFS":
             start = (0, 0)  # Posição inicial do mago
-            paths = self.find_all_paths(start)  # Encontra todos os caminhos para os aliados
-            
+            self.find_all_paths(start)  # Encontra todos os caminhos para os aliados
             # Atualiza o mapa com todos os caminhos encontrados
-            for ally, path in paths:
-                for (x, y) in path:  # Desenha cada caminho encontrado
-                    self.map[y][x] = PATH
-            print("Caminhos encontrados:", paths)
+            if self.all_paths:
+                self.animate_path()
+
+        elif button["text"] == "Reset Game":
+            self.reset_game()
+
+    def animate_path(self):
+        self.animating = True
+        self.current_path_index =  0
+        self.current_step_index = 0
+
+    def reset_game(self):
+        self.map = create_map()
+        self.allies_positions = []
+        print("Jogo resetou meu bom")
 
     def draw_buttons(self):
         for button in self.buttons:
@@ -97,6 +113,9 @@ class Game:
         running = True
         print("Iniciando o jogo...")
         while running:
+            self.screen.fill(WHITE)
+            draw_map(self.screen, self.map)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -107,13 +126,24 @@ class Game:
                     for button in self.buttons:
                         if button["rect"].collidepoint(mouse_pos):
                             self.handle_button_click(button)
+            
+            if self.animating:
+                if self.current_path_index < len(self.all_paths):
+                    path = self.all_paths[self.current_path_index]
+                    if self.current_step_index < len(path):
+                        x, y = path[self.current_step_index]
+                        self.map[y][x] = PATH
+                        self.current_step_index += 1
+                    else:
+                        self.current_path_index += 1
+                        self.current_step_index = 0
+                else:
+                    self.animating = False
 
-            self.screen.fill(WHITE)
-            pygame.draw.rect(self.screen, BLACK, (0, 0, MAP_SIZE * TILE_SIZE, MENU_HEIGHT))
-            draw_map(self.screen, self.map)
             self.draw_characters()  # Desenha os aliados após desenhar o mapa
             self.draw_buttons()
             pygame.display.flip()
+            pygame.time.delay(100) 
 
         pygame.quit()
 
