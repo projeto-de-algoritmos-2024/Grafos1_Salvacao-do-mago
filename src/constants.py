@@ -17,3 +17,5 @@ FOREST = 4
 RIVER = 5
 MOUNTAIN = 6
 
+# Definindo a constante PATH para o caminho encontrado
+PATH = 7  

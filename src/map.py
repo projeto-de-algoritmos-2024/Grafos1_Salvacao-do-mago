@@ -32,7 +32,8 @@ def draw_map(screen, game_map):
         ENEMY: images["ogre_img"],
         FOREST: images["forest_img"],
         RIVER: images["river_img"],
-        MOUNTAIN: images["mountain_img"]
+        MOUNTAIN: images["mountain_img"],
+        PATH: images["floor2_img"]  # Adicione a imagem do caminho se necessário
     }
 
     # Aqui, estamos percorrendo a matriz

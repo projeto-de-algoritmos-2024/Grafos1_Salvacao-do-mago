@@ -1,4 +1,5 @@
 import pygame
+import os
 from constants import TILE_SIZE
 
 def load_images():
@@ -10,7 +11,8 @@ def load_images():
         "river_img": load_image('../assets/river.png'),
         "mountain_img": load_image('../assets/mountain.png'),
         "forest_img": load_image('../assets/forest.png'),
-        "floor_img": load_image('../assets/floor.png')
+        "floor_img": load_image('../assets/floor.png'),
+        "floor2_img": load_image('../assets/floor2.png')
     }
 
     return images
