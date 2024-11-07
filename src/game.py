@@ -22,9 +22,11 @@ class Game:
         self.current_path_index = 0
         self.current_step_index = 0
 
+        self.search_started = False
+
         self.buttons = [
-            {"rect": pygame.Rect(30, 730, 150, 40), "text": "Add Aliados"},
-            {"rect": pygame.Rect(200, 730, 150, 40), "text": "Add Inimigos"},
+            {"rect": pygame.Rect(30, 730, 150, 40), "text": "Add Allies"},
+            {"rect": pygame.Rect(200, 730, 150, 40), "text": "Add Enemies"},
             {"rect": pygame.Rect(370, 730, 150, 40), "text": "Start BFS"},
             {"rect": pygame.Rect(540, 730, 150, 40), "text": "Reset Game"} 
         ]
@@ -73,19 +75,22 @@ class Game:
                 start = ally  # Atualiza a posição inicial para o próximo aliado
 
     def handle_button_click(self, button):
-        if button["text"] == "Add Aliados":
-            self.add_characters(ALLY, 1)  # Adiciona um aliado
-        elif button["text"] == "Add Inimigos":
-            self.add_characters(ENEMY, 1)  # Adiciona um inimigo
-        elif button["text"] == "Start BFS":
-            start = (0, 0)  # Posição inicial do mago
-            self.find_all_paths(start)  # Encontra todos os caminhos para os aliados
-            # Atualiza o mapa com todos os caminhos encontrados
-            if self.all_paths:
-                self.animate_path()
+        if not self.search_started:
+            if button["text"] == "Add Allies":
+                self.add_characters(ALLY, 1)  # Adiciona um aliado
+            elif button["text"] == "Add Enemies":
+                self.add_characters(ENEMY, 1)  # Adiciona um inimigo
+            elif button["text"] == "Start BFS":
+                self.search_started = True
+                start = (0, 0)  # Posição inicial do mago
+                self.find_all_paths(start)  # Encontra todos os caminhos para os aliados
+                # Atualiza o mapa com todos os caminhos encontrados
+                if self.all_paths:
+                    self.animate_path()
 
         elif button["text"] == "Reset Game":
             self.reset_game()
+            self.search_started = False
 
     def animate_path(self):
         self.animating = True
@@ -95,6 +100,11 @@ class Game:
     def reset_game(self):
         self.map = create_map()
         self.allies_positions = []
+        self.search_started = False
+        self.animating = False
+        self.all_paths = []
+        self.current_path_index = 0
+        self.current_step_index = 0
         print("Jogo resetou meu bom")
 
     def draw_buttons(self):
