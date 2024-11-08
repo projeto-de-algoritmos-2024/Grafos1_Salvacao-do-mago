@@ -51,7 +51,8 @@ python3 main.py
 #### 3. Clique no botão Start BFS para ver o caminho sendo desenhado;
 #### 4. Clique em Reset Game para poder executar de novo.
 
-
+## Vídeo
+Link: https://youtu.be/-Bpimil0cIU
 
 
 
