@@ -52,7 +52,7 @@ python3 main.py
 #### 4. Clique em Reset Game para poder executar de novo.
 
 ## Vídeo
-Link: https://youtu.be/-Bpimil0cIU
+Link: https://www.youtube.com/watch?v=t5slQFQ2mqg
 
 
 
