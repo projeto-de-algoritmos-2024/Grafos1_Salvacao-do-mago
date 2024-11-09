@@ -16,7 +16,7 @@ O projeto utiliza um algoritmo de busca em largura (BFS - Breadth-First-Search) 
 ## Screenshots
 ![imagem1](assets/print1.png)
 ![imagem2](assets/print2.png)
-![imagem3](assets/print3.png)
+![imagem3](assets/print4.png)
 
 ## Instalação 
 **Linguagem**: Python 3<br>
